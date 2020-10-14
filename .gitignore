@@ -1,2 +1,6 @@
+__pycache__
 .vscode
 images
+*.docx
+*.xlsx
+*.xls

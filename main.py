@@ -3,11 +3,14 @@ import openpyxl
 from docx import Document
 from docx.shared import Inches # need for layout in px
 
-wb = openpyxl.load_workbook('data.xlsx')
+docx_name = 'Use Case - description.docx'
+xlsx_name = 'data.xlsx'
+
+wb = openpyxl.load_workbook(xlsx_name)
 
 categories = ['ACCOUNT MANAGEMENT', 'BANK ACCOUNT MANAGEMENT', 'TRANSACTION MANAGEMENT', 'SECURITY', 'NOTIFICATION MANAGEMENT', 'HELP', 'FEEDBACK', 'COMMUNITY']
 
- 
+
 
 # -----------------------------------------------------
 # Create Document
@@ -15,16 +18,21 @@ categories = ['ACCOUNT MANAGEMENT', 'BANK ACCOUNT MANAGEMENT', 'TRANSACTION MANA
 
 document = Document()
 document.add_heading('Use Case Descriptions', 0)
+appendix = []
 
 # -----------------------------------------------------
 
 category_number = 1
+
 for category in categories:
 
     sheet = UseCase(wb[category])
-    tables = sheet.getTables()
+    _data = sheet.getTables()
+    tables = _data['tables']
+    appendix.append(_data['appendix'].copy())
 
-    # ADD HEADING 
+
+    # ADD HEADING
     document.add_heading(str(category_number) + '. ' +
                          categories[category_number - 1],
                          level=1)
@@ -66,6 +74,49 @@ for category in categories:
     category_number = category_number + 1
     document.add_page_break()
 
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Create Appendix
+    # -----------------------------------------------------
 
-document.save('desc.docx')
+
+
+# ADD HEADING
+document.add_heading( 'APPENDIX', level=1)
+
+# ADD TABLES
+atable_number = 1
+for i in appendix:
+    for atable in i:
+        # ADD HEADING
+        document.add_heading('A.' + str(atable_number) +
+                             '. ' + atable['Name'] + ' (' +
+                             str(atable['Priority']) + ')',
+                             level=2)
+
+        # ADD TABLE
+        _table = document.add_table(rows=len(atable), cols=2)
+        _table.autofit = False
+        _table.allow_autofit = False
+        # set table col width
+        _table.columns[0].width = Inches(1.0)
+        _table.columns[1].width = Inches(5.0)
+
+        i = 0
+        for key in atable:
+            _table.rows[i].cells[0].paragraphs[0].add_run(key).bold = True
+            _table.rows[i].cells[0].width = Inches(1.0)
+            _table.rows[i].cells[1].text = atable[key]
+            _table.rows[i].cells[1].width = Inches(5.0)
+            i = i + 1
+
+
+        atable_number = atable_number + 1
+        # ADD SPACE
+        document.add_paragraph('\n')
+
+
+
+# -----------------------------------------------------
+document.save(docx_name)
+print('Saved in: ')
+print(docx_name)
