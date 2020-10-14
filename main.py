@@ -10,7 +10,8 @@ wb = openpyxl.load_workbook(xlsx_name)
 
 categories = ['ACCOUNT MANAGEMENT', 'BANK ACCOUNT MANAGEMENT', 'TRANSACTION MANAGEMENT', 'SECURITY', 'NOTIFICATION MANAGEMENT', 'HELP', 'FEEDBACK', 'COMMUNITY']
 
-
+# get descriptions
+descriptions = UseCase(wb['DESCRIPTIONS']).getDescriptions()
 
 # -----------------------------------------------------
 # Create Document
@@ -19,6 +20,8 @@ categories = ['ACCOUNT MANAGEMENT', 'BANK ACCOUNT MANAGEMENT', 'TRANSACTION MANA
 document = Document()
 document.add_heading('Use Case Descriptions', 0)
 appendix = []
+
+
 
 # -----------------------------------------------------
 
@@ -36,6 +39,9 @@ for category in categories:
     document.add_heading(str(category_number) + '. ' +
                          categories[category_number - 1],
                          level=1)
+    # ADD DESCRIPTION
+    # we need to find the category they want. Python dictionary method get() returns a value for the given key. If key is not available then returns default value None.
+    document.add_paragraph(descriptions.get(category))
 
     # ADD PICTURE
     document.add_picture('images/' + category + '.png', width=Inches(5.0))
@@ -55,6 +61,7 @@ for category in categories:
         _table = document.add_table(rows=len(table), cols=2)
         _table.autofit = False
         _table.allow_autofit = False
+        _table.style = 'TableGrid'
         # set table col width
         _table.columns[0].width = Inches(1.0)
         _table.columns[1].width = Inches(5.0)
@@ -97,6 +104,8 @@ for i in appendix:
         _table = document.add_table(rows=len(atable), cols=2)
         _table.autofit = False
         _table.allow_autofit = False
+        _table.style = 'TableGrid'
+
         # set table col width
         _table.columns[0].width = Inches(1.0)
         _table.columns[1].width = Inches(5.0)

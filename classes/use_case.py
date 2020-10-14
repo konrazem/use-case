@@ -85,4 +85,20 @@ class UseCase:
                     if val != 1:
                         tables.append(table.copy())
         return {'tables': tables, 'appendix': appendix}
- 
+
+
+
+    def getDescriptions(self):
+        desc = {}
+        # in UC - DESCRIPTION there is a sheet with categories Name and Description
+        # return description for the given category 
+        # 1. Go row by row to get Dictionary
+        for row in range(2, self.maxrow): # 1 to ommit names 
+            key = self.sheet.cell(row=row, column=1).value
+            val = self.sheet.cell(row=row, column=2).value
+            desc[key] = val
+        
+        # we have structure:
+        # { 'BANK ACCOUNT MANAGEMENT': '...', 'ACCOUNT MANAGEMENT': ' ... ', ... }
+        return desc
+
