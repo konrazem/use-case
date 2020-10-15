@@ -2,5 +2,4 @@ __pycache__
 .vscode
 images
 *.docx
-*.xlsx
-*.xls
+data.xlsx

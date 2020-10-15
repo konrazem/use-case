@@ -6,13 +6,13 @@ Program is based on 2 libraries:
 1. [python-docx](https://python-docx.readthedocs.io/en/latest/) for docx files and 
 2. [openpyxl](https://openpyxl.readthedocs.io/en/stable/) for xlsx or xls files.
 
-Before you need to install those libraries with python 3.0. Note that python-docx relies on libxml2 and libxslt (lxml). For Windows users go to [lxml](https://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml) and download specific whl file. For example for windows 64bit and python 3.9 install **lz4‑3.1.0‑cp39‑cp39‑win_amd64.whl**. Next install with pip for the given *wheel* in a way: 
+Before you need to install those libraries with python 3.0. Note that python-docx need Visual Studio 2014 and relies on libxml2 and libxslt (lxml). **IF YOU DO NOT HAVE IT** then for Windows users go to [lxml](https://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml) and download specific whl file. For example for windows 64bit and python 3.9 install **lz4‑3.1.0‑cp39‑cp39‑win_amd64.whl**. Next install with pip for the given *wheel* in a way: 
 
 ```
 pip install <PATH TO THE DOWNLOADED WHL FILE>.whl
 ```
 
-After install python-docx which major library for this project:
+Next you are good to install python-docx (on which this project depends on):
 
 ```
 pip install python-docx
